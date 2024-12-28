@@ -1,69 +1,3 @@
-export const buyBrands = [
-  {
-    image: "/images/sAmazon.png",
-    banner: "",
-    checkoutBanner: "",
-    text1: "Amazon",
-    text2: "Lorem Ipsum a dummy",
-    link: "/buy-gift-card/amazon",
-  },
-  {
-    image: "/images/sPlayStation.png",
-    banner: "/images/playStationBanner.png",
-    checkoutBanner: "/images/playStationCheckoutBanner.png",
-    text1: "PlayStation",
-    text2: "Lorem Ipsum a dummy",
-    link: "/buy-gift-card/play-station",
-  },
-  {
-    image: "/images/sGooglePlay.png",
-    banner: "",
-    checkoutBanner: "",
-    text1: "Google Play",
-    text2: "Lorem Ipsum a dummy",
-    link: "/buy-gift-card/google-play",
-  },
-  {
-    image: "/images/sITunes.png",
-    banner: "",
-    checkoutBanner: "",
-    text1: "iTunes",
-    text2: "Lorem Ipsum a dummy",
-    link: "/buy-gift-card/i-tunes",
-  },
-  {
-    image: "/images/sXBox.png",
-    banner: "",
-    checkoutBanner: "",
-    text1: "Amazon",
-    text2: "Lorem Ipsum a dummy",
-    link: "/buy-gift-card/x-box",
-  },
-  {
-    image: "/images/sAmazon.png",
-    banner: "",
-    checkoutBanner: "",
-    text1: "Amazon",
-    text2: "Lorem Ipsum a dummy",
-    link: "/buy-gift-card/amazon",
-  },
-  {
-    image: "/images/sPlayStation.png",
-    banner: "/images/playStationBanner.png",
-    checkoutBanner: "/images/playStationCheckoutBanner.png",
-    text1: "PlayStation",
-    text2: "Lorem Ipsum a dummy",
-    link: "/buy-gift-card/play-station",
-  },
-  {
-    image: "/images/sGooglePlay.png",
-    banner: "",
-    checkoutBanner: "",
-    text1: "Google Play",
-    text2: "Lorem Ipsum a dummy",
-    link: "/buy-gift-card/google-play",
-  },
-];
 
 export const sellBrands = [
   {
@@ -227,5 +161,3 @@ export const history = [
           date: "10/10/24",
         },
   ];
-
-export const fixedPrices = ["50", "100", "150", "200", "300"];

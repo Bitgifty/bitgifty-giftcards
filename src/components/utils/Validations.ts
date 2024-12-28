@@ -2,17 +2,27 @@ import { z } from "zod";
 
 
 
-export const buySchema = z.object({
-  recipient_name: z.string().min(1, "Enter recipient name"),
-  sender_name: z.string().min(1, "Enter your name"),
-  recipient_email: z
-  .string()
-  .min(1, { message: "Email cannot be empty" })
-  .email("This is not a valid email."),
-  amount: z.string().min(1, "Enter amount"),
-  quantity: z.string(),
-  message: z.string().min(1, "Message cannot be empty"),
-});
+export const buySchema = (amountType: string, amountMin: number, amountMax: number) => {
+  return z.object({
+      recipient_name: z.string().min(1, "Enter recipient name"),
+      sender_name: z.string().min(1, "Enter your name"),
+      recipient_email: z
+          .string()
+          .min(1, { message: "Email cannot be empty" })
+          .email("This is not a valid email."),
+      amount: amountType === "fixed"
+          ? z.string().min(1, "Amount is required")
+          : z.preprocess(
+              (value) => (value ? parseFloat(value as string) : undefined),
+              z
+                  .number()
+                  .min(amountMin, `Amount must be at least ${amountMin}`)
+                  .max(amountMax, `Amount cannot exceed ${amountMax}`)
+          ),
+      quantity: z.string(),
+      message: z.string().min(1, "Message cannot be empty"),
+  });
+};
 
 const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB

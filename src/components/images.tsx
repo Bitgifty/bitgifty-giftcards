@@ -3,6 +3,13 @@ import { useNavigate } from "react-router-dom";
 export const NameLogo = () => (
   <img src="/images/name.svg" alt="" className="cursor-pointer" />
 );
+export const Logo = () => (
+  <img
+    src="/images/logo.ico"
+    alt=""
+    className="cursor-pointer h-[27px] w-[27px]"
+  />
+);
 export const PersonIcon = () => (
   <img src="/images/person.png" alt="" className="cursor-pointer" />
 );
@@ -23,6 +30,37 @@ export const BuyIcon = () => (
 );
 export const SellIcon = () => (
   <img src="/images/sell.png" alt="" className=" cursor-pointer" />
+);
+export const CancelIcon = ({
+  extraClass,
+  onClick,
+}: {
+  extraClass?: string;
+  onClick?: React.MouseEventHandler<HTMLImageElement> | undefined;
+}) => (
+  <img
+    src="/images/cancel.png"
+    alt=""
+    className={`${extraClass} cursor-pointer`}
+    onClick={onClick}
+  />
+);
+export const DoneGreenIcon = () => (
+  <img src="/images/doneGreen.png" alt="" className=" w-[13px] h-[13px]" />
+);
+export const ArrowLeftWhiteIcon = () => (
+  <img
+    src="/images/arrowWhite.svg"
+    alt=""
+    className=" cursor-pointer rotate-180"
+  />
+);
+export const DropDownBlackIcon = () => (
+  <img
+    src="/images/dropDown.png"
+    alt=""
+    className="h-[8px] w-[5px] cursor-pointer rotate-90"
+  />
 );
 
 export const BackIcon = ({ extraClass }: { extraClass?: string }) => {

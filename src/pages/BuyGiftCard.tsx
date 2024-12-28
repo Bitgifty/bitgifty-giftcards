@@ -2,12 +2,17 @@ import { useState } from "react";
 import { BackIcon, SearchIcon } from "../components/images";
 import Layout from "../components/Layout";
 import { CategoryBtn } from "../components/Buttons/CategoryBtn";
-import { buyBrands } from "../components/utils/Dummy";
 import { BrandCard } from "../components/cards/BrandCard";
+import { useGetBrandsByCountryQuery } from "../appSlices/apiSlice";
+import { useAppSelector } from "../app/hooks";
+import { selectCountry } from "../appSlices/CountrySlice";
+import { BrandCardSkeleton } from "../components/utils/skeletons/BrandCardSkeleton";
 
 const BuyGiftCard = () => {
   const [category, setCategory] = useState<string>("All");
-
+  const country = useAppSelector(selectCountry);
+  const { currentData: operators, isFetching: isFetchingOperators } =
+    useGetBrandsByCountryQuery({ country });
   return (
     <Layout>
       <section className="py-[40px] px-[16px] relative">
@@ -35,14 +40,17 @@ const BuyGiftCard = () => {
           </div>
         </div>
         <section className="mt-[100px] grid grid-cols-2 gap-[16px]">
-          {buyBrands?.map((brand) => (
+          {isFetchingOperators &&
+            Array(8)
+              .fill(0)
+              .map((_, index) => <BrandCardSkeleton key={index} />)}
+          {operators?.map((brand: any) => (
             <BrandCard
-              text1={brand?.text1}
-              text2={brand?.text2}
-              image={brand?.image}
-              banner={brand?.banner}
-              checkoutBanner={brand?.checkoutBanner}
-              link={brand?.link}
+              key={brand?.id}
+              text1={brand?.name}
+              text2={brand?.productTypeName}
+              image={`https://media.sochitel.com/img/operators/${brand?.id}.png`}
+              link={`/buy-gift-card/${brand?.id}`}
             />
           ))}
         </section>

@@ -1,4 +1,6 @@
 import { Controller } from "react-hook-form";
+import { useAppSelector } from "../../app/hooks";
+import { selectCountry } from "../../appSlices/CountrySlice";
 
 interface FormFieldProps
   extends React.DetailedHTMLProps<
@@ -21,6 +23,7 @@ export const TextInput = ({
   fixedOnClick,
   ...props
 }: FormFieldProps) => {
+  const selectedCountry = useAppSelector(selectCountry);
   return (
     <Controller
       control={control}
@@ -31,7 +34,7 @@ export const TextInput = ({
             {label}
           </p>
           {fixedValues !== undefined && (
-            <div className="flex mb-[12px] gap-x-[8px]">
+            <div className="flex mb-[12px] gap-[8px] flex-wrap">
               {fixedValues?.map((value) => (
                 <button
                   type="button"
@@ -42,7 +45,7 @@ export const TextInput = ({
                   }`}
                   onClick={() => fixedOnClick && fixedOnClick(value)}
                 >
-                  {`$${value}`}
+                  {`${selectedCountry?.currency}${value}`}
                 </button>
               ))}
             </div>

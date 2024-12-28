@@ -4,6 +4,9 @@ import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 import { Itemize } from "../components/cards/Itemize";
 import { ActionButton } from "../components/Buttons/ActionButton";
+import { BackIcon } from "../components/images";
+import { useAppSelector } from "../app/hooks";
+import { selectCountry } from "../appSlices/CountrySlice";
 
 const BuyCheckout = () => {
   const [brandInfo, setBrandInfo] = useState<any>({});
@@ -24,14 +27,17 @@ const BuyCheckout = () => {
     navigate("/");
   };
 
+  const selectedCountry = useAppSelector(selectCountry);
+
   return (
     <Layout>
-      <div>
+      <div className="relative">
         <img
-          src={brandInfo?.checkoutBanner}
+          src={brandInfo?.image}
           alt=""
           className="w-full h-[318px] rounded-[0px_0px_8px_8px]"
         />
+        <BackIcon extraClass="absolute top-[15px] left-[15px] bg-grey-2 rounded-[4px] p-[2px_5px] border-grey-1 border-[0.4px]" />
 
         <div className="relative px-[16px]">
           <section className="w-[calc(100%-32px)] flex flex-col gap-y-[8px] mt-[-65px] absolute  pt-[16px] px-[18px] pb-[33px] rounded-[11px] bg-orange-1">
@@ -68,7 +74,7 @@ const BuyCheckout = () => {
                 Total
               </span>
               <span className="text-[20px] text-black-1 leading-[23.71px] space-x-[6%] font-[500]">
-                {`$ ${
+                {`${selectedCountry?.currency} ${
                   isNaN(checkoutInfo?.amount * checkoutInfo?.quantity)
                     ? "0"
                     : checkoutInfo?.amount * checkoutInfo?.quantity

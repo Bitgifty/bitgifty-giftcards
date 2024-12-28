@@ -2,16 +2,12 @@ import { useNavigate } from "react-router-dom";
 
 export const BrandCard = ({
   image,
-  banner,
-  checkoutBanner,
   text1,
   text2,
   link,
   sell,
 }: {
   image: string;
-  banner: string;
-  checkoutBanner: string;
   brand?: string;
   text1: string;
   text2: string;
@@ -21,8 +17,7 @@ export const BrandCard = ({
   const navigate = useNavigate();
   const handleClick = () => {
     const brandInfo = {
-      banner,
-      checkoutBanner,
+      image,
       brand: text1,
     };
     localStorage.setItem("brandInfo", JSON.stringify(brandInfo));
