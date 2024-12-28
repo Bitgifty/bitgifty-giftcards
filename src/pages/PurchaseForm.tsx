@@ -56,6 +56,10 @@ const PurchaseForm = () => {
     navigate(`/buy-gift-card/${brand}/checkout`);
   };
 
+  useEffect(() => {
+    setValue("amount", selectedProduct?.price?.operator);
+  }, [selectedProduct]);
+
   return (
     <Layout>
       <div className="relative">
