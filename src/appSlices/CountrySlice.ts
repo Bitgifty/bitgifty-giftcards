@@ -11,7 +11,7 @@ export const fetchRate = createAsyncThunk(
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_UTIL_BASE_URL}/swap/get-dollar-price/?country=${country}`
+        `${import.meta.env.VITE_UTIL_BASE_URL}/swap/get-dollar-price/?country=${country}`
       );
       if (!response.ok) throw new Error("Failed to fetch rate");
 
