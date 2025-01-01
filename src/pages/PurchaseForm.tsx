@@ -31,6 +31,7 @@ const PurchaseForm = () => {
       recipient_name: "",
       sender_name: "",
       recipient_email: "",
+      recipient_phone_number: "",
       amount: "",
       quantity: "1",
       message: "",
@@ -93,6 +94,12 @@ const PurchaseForm = () => {
           label="Recipient Email"
           name="recipient_email"
           placeholder="Enter Recipient Email "
+        />
+        <TextInput
+          control={control}
+          label="Recipient Phone Number"
+          name="recipient_phone_number"
+          placeholder="Enter Recipient Phone Number "
         />
         {selectedProduct?.price_type === "fixed" && (
           <TextInput

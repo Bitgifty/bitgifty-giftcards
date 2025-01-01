@@ -21,12 +21,21 @@ export const apiSlice = createApi({
         url: `/get-operator-products/?operator_id=${operatorId}&product_category=EVOUCHERS`,
       }),
     }),
+    checkout: builder.mutation({
+      query: (data) => ({
+        url: "/exec-transaction",
+        method: "POST",
+        body: data,
+      }),
+     
+    }),
     
   }),
 });
 
 export const {
   useGetBrandsByCountryQuery,
- useGetOperatorProductsQuery
+ useGetOperatorProductsQuery,
+ useCheckoutMutation
 
 } = apiSlice;

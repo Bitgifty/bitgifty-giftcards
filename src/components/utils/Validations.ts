@@ -10,6 +10,7 @@ export const buySchema = (amountType: string, amountMin: number, amountMax: numb
           .string()
           .min(1, { message: "Email cannot be empty" })
           .email("This is not a valid email."),
+          recipient_phone_number: z.string().min(1, "Enter recipient phone number"),
       amount: amountType === "fixed"
           ? z.string().min(1, "Amount is required")
           : z.preprocess(

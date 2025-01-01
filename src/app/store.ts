@@ -3,8 +3,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "../appSlices/apiSlice";
 import generalReducer from "../appSlices/generalSlice";
 import tokenReducer from "../appSlices/TokenSlice";
-import walletReducer from "../appSlices/walletSlice"
-import countryReducer from "../appSlices/CountrySlice"
+import walletReducer from "../appSlices/walletSlice";
+import countryReducer from "../appSlices/CountrySlice";
+import contractReducer from "../appSlices/ContractSlice"
+
 
 
 export const store = configureStore({
@@ -13,7 +15,8 @@ export const store = configureStore({
     generalReducer,
     tokenReducer,
     walletReducer,
-    countryReducer
+    countryReducer,
+    contractReducer
 
   },
   middleware: (getDefaultMiddleware) =>
