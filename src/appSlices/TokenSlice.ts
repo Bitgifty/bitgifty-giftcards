@@ -3,6 +3,7 @@ import { RootState } from "../app/store";
 import { Account, Address, Chain, createPublicClient, formatUnits, http } from "viem";
 import { Token } from "../components/utils/Types";
 import { erc20ABI, SUPPORTED_CHAINS } from "../components/utils/SupportedChains";
+import { sanitizeChain } from "../components/utils/SanitizeChain";
 
 // Define the initial state
 type TokenState = {
@@ -23,11 +24,7 @@ const initialState: TokenState = {
   error: null,
 };
 
-// Helper function to sanitize a Chain object
-const sanitizeChain = (chain: Chain): Partial<Chain> => {
-  const { fees, formatters, serializers, ...serializableProperties } = chain; // Remove non-serializable fields
-  return serializableProperties; // Return only serializable fields
-};
+
 
 // Async thunk to fetch token balances
 export const fetchTokenBalances = createAsyncThunk(
@@ -109,10 +106,15 @@ export const initializeChain = createAsyncThunk(
 
       const chainId = Number.parseInt(chainIdHex.slice(2), 16);
       const detectedChain = SUPPORTED_CHAINS.find((c) => c.chain.id === chainId);
+      console.log(detectedChain)
 
       if (detectedChain) {
         dispatch(setActiveChain(sanitizeChain(detectedChain.chain))); // Sanitize chain
         dispatch(setAvailableTokens(detectedChain.tokens));
+        dispatch(setActiveToken(detectedChain.tokens[0]));
+
+        
+      
       } else {
         // Default to the first chain in SUPPORTED_CHAINS
         dispatch(setActiveChain(sanitizeChain(SUPPORTED_CHAINS[0].chain))); // Sanitize chain

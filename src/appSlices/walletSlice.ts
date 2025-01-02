@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import { Account } from "viem";
 import { SUPPORTED_CHAINS } from "../components/utils/SupportedChains";
-import { setAccount, setActiveChain } from "./TokenSlice";
+import { setAccount, setActiveChain, setActiveToken, setAvailableTokens } from "./TokenSlice";
+import { sanitizeChain } from "../components/utils/SanitizeChain";
 
 // Define the initial state
 type WalletState = {
@@ -72,16 +73,17 @@ export const connectWallet = createAsyncThunk(
       // Get current chain ID
       const chainIdHex = (await window.ethereum.request({
         method: "eth_chainId",
-        params: [],
-      })) as string;
-      const chainId = parseInt(chainIdHex, 16);
+      })) as `0x${string}`;
 
-      // Dispatch chain change handling (assuming supportedChains are available in Redux)
-      const detectedChain = SUPPORTED_CHAINS.find(
-        (c) => c.chain.id === chainId
-      )?.chain;
+      // const chainId = parseInt(chainIdHex, 16);
+      const chainId = Number.parseInt(chainIdHex.slice(2), 16);
+      const detectedChain = SUPPORTED_CHAINS.find((c) => c.chain.id === chainId);
+      
+      console.log(detectedChain)
       if (detectedChain) {
-        dispatch(setActiveChain(detectedChain));
+        dispatch(setActiveChain(sanitizeChain(detectedChain.chain))); // Sanitize chain
+        dispatch(setAvailableTokens(detectedChain.tokens));
+        dispatch(setActiveToken(detectedChain.tokens[0]));
       } else {
         console.warn(`Chain ID ${chainId} not supported`);
       }

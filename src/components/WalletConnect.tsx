@@ -22,7 +22,12 @@ const WalletConnect = () => {
 
   useEffect(() => {
     dispatch(initializeChain());
+    console.log(walletAddress);
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log(activeToken);
+  }, [activeToken]);
 
   return (
     <div className="flex items-center gap-x-[10px]">
