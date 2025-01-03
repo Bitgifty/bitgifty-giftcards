@@ -106,7 +106,6 @@ export const initializeChain = createAsyncThunk(
 
       const chainId = Number.parseInt(chainIdHex.slice(2), 16);
       const detectedChain = SUPPORTED_CHAINS.find((c) => c.chain.id === chainId);
-      console.log(detectedChain)
 
       if (detectedChain) {
         dispatch(setActiveChain(sanitizeChain(detectedChain.chain))); // Sanitize chain

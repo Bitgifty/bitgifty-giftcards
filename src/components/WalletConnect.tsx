@@ -26,8 +26,8 @@ const WalletConnect = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log(activeToken);
-  }, [activeToken]);
+    handleConnectWallet();
+  });
 
   return (
     <div className="flex items-center gap-x-[10px]">

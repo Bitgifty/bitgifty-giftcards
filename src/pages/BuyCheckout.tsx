@@ -5,15 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { Itemize } from "../components/cards/Itemize";
 import { ActionButton } from "../components/Buttons/ActionButton";
 import { BackIcon } from "../components/images";
-import { useAppSelector } from "../app/hooks";
-import { selectCountry } from "../appSlices/CountrySlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import {
+  fetchRate,
+  selectCountry,
+  selectRate,
+} from "../appSlices/CountrySlice";
 import { getFormattedBalance } from "../components/utils/Formatters";
-import { selectActiveChain, selectActiveToken } from "../appSlices/TokenSlice";
-import { handleTokenTransfer } from "../appSlices/ContractSlice";
+import {
+  initializeChain,
+  selectActiveChain,
+  selectActiveToken,
+} from "../appSlices/TokenSlice";
 import { Address } from "viem";
 import { selectOperatorProduct } from "../appSlices/generalSlice";
 import { selectAccount, selectWalletAddress } from "../appSlices/walletSlice";
 import { useCheckoutMutation } from "../appSlices/apiSlice";
+import { useSnackbar } from "notistack";
+import { handleTokenTransfer } from "../components/utils/TokenTransfer";
 
 const BuyCheckout = () => {
   const [brandInfo, setBrandInfo] = useState<any>({});
@@ -25,8 +34,12 @@ const BuyCheckout = () => {
   const account: any = useAppSelector(selectAccount);
   const product = useAppSelector(selectOperatorProduct);
   const walletAddress = useAppSelector(selectWalletAddress);
+  const rate = useAppSelector(selectRate);
   const chain = useAppSelector(selectActiveChain);
   const [checkout, { isLoading: isCheckingOut }] = useCheckoutMutation();
+  const dispatch = useAppDispatch();
+  const country = useAppSelector(selectCountry);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (localStorage.getItem("brandInfo")) {
@@ -35,7 +48,14 @@ const BuyCheckout = () => {
     if (localStorage.getItem("checkoutInfo")) {
       setCheckoutInfo(JSON.parse(localStorage.getItem("checkoutInfo")!));
     }
+    dispatch(initializeChain());
   }, []);
+
+  useEffect(() => {
+    if (country) {
+      dispatch(fetchRate(country?.country));
+    }
+  }, [country, dispatch]);
 
   const validateBalance = () => {
     let isValid = true;
@@ -57,33 +77,34 @@ const BuyCheckout = () => {
   const handleCheckout = async () => {
     const { isValid } = validateBalance();
 
-    if (isValid) {
+    if (true) {
       try {
-        const tx: any = handleTokenTransfer({
-          tokenAddress: activeToken?.address as Address,
-          receiverAddress: import.meta.env.VITE_UTIL_MW as Address,
-          amount: parseFloat(checkoutInfo?.amount).toFixed(4),
-          chainId: activeChain?.id as number,
-          decimals: activeToken?.decimals as number,
-        });
+        console.log("active chain", activeChain);
+        const tx = await handleTokenTransfer(
+          activeToken?.address as Address,
+          import.meta.env.VITE_UTIL_MW as Address,
+          parseFloat((checkoutInfo?.amount / rate)?.toString()).toFixed(4),
+          activeChain?.id as number,
+          activeToken?.decimals as number
+        );
 
         if (tx.status === "success") {
           const data = {
             operator: checkoutInfo?.brand,
             msisdn: checkoutInfo?.recipient_phone_number,
             account_id: account?.id,
-            amount: null,
-            amount_operator: `${checkoutInfo?.amount}.0`,
+            amount: "",
+            amount_operator: `${(checkoutInfo?.amount / rate).toFixed(2)}`,
             product_id: product?.id,
             user_reference: checkoutInfo?.recipient_email,
             product_type: product?.product_type,
             product_category: product?.product_category,
             extra_parameters: {},
             wallet_address: walletAddress,
-            crypto_amount: null,
+            crypto_amount: "",
             country: checkoutInfo?.country,
             transaction_hash: tx.transactionHash as string,
-            chain,
+            chain: chain?.name,
             transaction_type: "",
             bill_type: "",
           };
@@ -101,7 +122,9 @@ const BuyCheckout = () => {
         console.log(error);
       }
     } else {
-      console.log(balanceError);
+      enqueueSnackbar(balanceError ? balanceError : "Something went wrong!", {
+        variant: "error",
+      });
     }
   };
 
@@ -150,7 +173,10 @@ const BuyCheckout = () => {
             />
             <Itemize
               name="Rate"
-              value={`${checkoutInfo?.amount}/1` || "No rate found!"}
+              value={
+                `$1 = ${selectedCountry?.currency}${rate?.toFixed(2)}` ||
+                "No rate found!"
+              }
             />
 
             <div className="flex items-center justify-between mt-[13px]">
@@ -162,7 +188,10 @@ const BuyCheckout = () => {
                   isNaN(checkoutInfo?.amount * checkoutInfo?.quantity)
                     ? "0"
                     : checkoutInfo?.amount * checkoutInfo?.quantity
-                }`}
+                }($${(
+                  (checkoutInfo?.amount * checkoutInfo?.quantity) /
+                  rate
+                )?.toFixed(2)})`}
               </span>
             </div>
           </section>

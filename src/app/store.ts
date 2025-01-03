@@ -5,7 +5,6 @@ import generalReducer from "../appSlices/generalSlice";
 import tokenReducer from "../appSlices/TokenSlice";
 import walletReducer from "../appSlices/walletSlice";
 import countryReducer from "../appSlices/CountrySlice";
-import contractReducer from "../appSlices/ContractSlice"
 
 
 
@@ -16,7 +15,6 @@ export const store = configureStore({
     tokenReducer,
     walletReducer,
     countryReducer,
-    contractReducer
 
   },
   middleware: (getDefaultMiddleware) =>

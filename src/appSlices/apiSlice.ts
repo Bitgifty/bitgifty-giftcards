@@ -23,7 +23,7 @@ export const apiSlice = createApi({
     }),
     checkout: builder.mutation({
       query: (data) => ({
-        url: "/exec-transaction",
+        url: "/exec-transaction/",
         method: "POST",
         body: data,
       }),

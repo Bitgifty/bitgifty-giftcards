@@ -17,7 +17,7 @@ import { recents } from "../components/utils/Dummy";
 import { Link } from "react-router-dom";
 import CountrySelector from "../components/Inputs/CountrySelector";
 import WalletConnect from "../components/WalletConnect";
-import { selectActiveToken, setActiveToken } from "../appSlices/TokenSlice";
+import { initializeChain, selectActiveToken } from "../appSlices/TokenSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { getFormattedBalance } from "../components/utils/Formatters";
 import {
@@ -29,7 +29,6 @@ import {
 } from "../appSlices/CountrySlice";
 import { useEffect } from "react";
 import { defaultCountry } from "../components/utils/SupportedCountries";
-import { SUPPORTED_CHAINS } from "../components/utils/SupportedChains";
 
 const Home = () => {
   const activeToken = useAppSelector(selectActiveToken);
@@ -54,12 +53,14 @@ const Home = () => {
 
   useEffect(() => {
     if (country) {
+      console.log("fetching rate", country);
       dispatch(fetchRate(country?.country));
+      console.log(rate);
     }
   }, [country, dispatch]);
 
   useEffect(() => {
-    dispatch(setActiveToken(SUPPORTED_CHAINS[0].tokens[0]));
+    dispatch(initializeChain());
   }, []);
 
   return (
