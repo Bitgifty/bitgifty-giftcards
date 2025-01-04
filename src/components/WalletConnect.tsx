@@ -1,6 +1,5 @@
-import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { initializeChain, selectActiveToken } from "../appSlices/TokenSlice";
+import { fetchTokenBalances, selectActiveToken } from "../appSlices/TokenSlice";
 import { connectWallet, selectWalletAddress } from "../appSlices/walletSlice";
 import { PersonIcon } from "./images";
 import TokenSelector from "./Inputs/TokenSelector";
@@ -14,20 +13,12 @@ const WalletConnect = () => {
     try {
       // Dispatch the connectWallet thunk
       await dispatch(connectWallet()).unwrap();
+      dispatch(fetchTokenBalances());
     } catch (err) {
       // Handle errors (optional, since errors are already handled in the slice)
       console.error("Error connecting wallet:", err);
     }
   };
-
-  useEffect(() => {
-    dispatch(initializeChain());
-    console.log(walletAddress);
-  }, [dispatch]);
-
-  useEffect(() => {
-    handleConnectWallet();
-  });
 
   return (
     <div className="flex items-center gap-x-[10px]">

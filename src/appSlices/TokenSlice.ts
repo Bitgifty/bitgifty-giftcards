@@ -24,8 +24,6 @@ const initialState: TokenState = {
   error: null,
 };
 
-
-
 // Async thunk to fetch token balances
 export const fetchTokenBalances = createAsyncThunk(
   "token/fetchTokenBalances",
@@ -62,7 +60,7 @@ export const fetchTokenBalances = createAsyncThunk(
           return {
             ...token,
             balance: balance as bigint,
-            formattedBalance: parseFloat(formatUnits(balance as bigint, token.decimals)),
+            formattedBalance: parseFloat(formatUnits(balance as bigint, token.decimals)).toFixed(4),
           };
         })
       );
@@ -137,9 +135,11 @@ const tokenSlice = createSlice({
       state.activeChain = action.payload;
       state.activeToken = null;
       state.availableTokens = [];
+
     },
     setAvailableTokens: (state, action) => {
       state.availableTokens = action.payload;
+
     },
     setAccount: (state, action) => {
       state.account = action.payload;

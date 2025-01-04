@@ -17,9 +17,8 @@ import { recents } from "../components/utils/Dummy";
 import { Link } from "react-router-dom";
 import CountrySelector from "../components/Inputs/CountrySelector";
 import WalletConnect from "../components/WalletConnect";
-import { initializeChain, selectActiveToken } from "../appSlices/TokenSlice";
+import { fetchTokenBalances, selectActiveToken } from "../appSlices/TokenSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { getFormattedBalance } from "../components/utils/Formatters";
 import {
   detectCountryByIP,
   fetchRate,
@@ -31,7 +30,7 @@ import { useEffect } from "react";
 import { defaultCountry } from "../components/utils/SupportedCountries";
 
 const Home = () => {
-  const activeToken = useAppSelector(selectActiveToken);
+  const activeToken: any = useAppSelector(selectActiveToken);
   const rate = useAppSelector(selectRate);
   const dispatch = useAppDispatch();
   const localCountry = localStorage.getItem("user_country");
@@ -49,19 +48,15 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(detectCountryByIP());
+    dispatch(fetchTokenBalances());
   }, [dispatch]);
 
   useEffect(() => {
     if (country) {
       console.log("fetching rate", country);
       dispatch(fetchRate(country?.country));
-      console.log(rate);
     }
   }, [country, dispatch]);
-
-  useEffect(() => {
-    dispatch(initializeChain());
-  }, []);
 
   return (
     <Layout>
@@ -80,17 +75,24 @@ const Home = () => {
                   Available Balance
                 </p>
                 <p className="text-[32px] font-[500] leading-[37.5px] space-x-[-9%]">
-                  {activeToken?.symbol}{" "}
-                  {getFormattedBalance(activeToken || null)}
+                  {activeToken?.symbol} {activeToken?.formattedBalance || null}
                 </p>
                 <p className="text-[16px]  leading-[37.5px] space-x-[-9%]">
                   {country?.ticker}{" "}
-                  {parseFloat(
-                    (
-                      parseFloat(getFormattedBalance(activeToken || null)) *
-                      rate
-                    ).toFixed(0)
-                  )}
+                  {isNaN(
+                    parseFloat(
+                      (
+                        parseFloat(activeToken?.formattedBalance || null) * rate
+                      ).toFixed(0)
+                    )
+                  )
+                    ? "0"
+                    : parseFloat(
+                        (
+                          parseFloat(activeToken?.formattedBalance || null) *
+                          rate
+                        ).toFixed(0)
+                      )}
                 </p>
               </div>
               <Link

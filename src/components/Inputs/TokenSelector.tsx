@@ -73,7 +73,7 @@ const TokenSelector = () => {
               <p>
                 {parseFloat(
                   formatUnits(token.balance ?? BigInt(0), token.decimals)
-                )}
+                )?.toFixed(4)}
               </p>
               <p className=" text-black-2">{token?.symbol}</p>
             </div>

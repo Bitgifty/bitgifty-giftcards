@@ -18,6 +18,8 @@ import {
   setOperatorProduct,
 } from "../appSlices/generalSlice";
 import { getRange } from "../components/utils/GetRange";
+import { formatPhoneNumber } from "../components/utils/Formatters";
+import { selectCountry } from "../appSlices/CountrySlice";
 
 const PurchaseForm = () => {
   const [brandInfo, setBrandInfo] = useState<any>({});
@@ -25,6 +27,7 @@ const PurchaseForm = () => {
   const { brand } = useParams();
   const dispatch = useAppDispatch();
   const selectedProduct = useAppSelector(selectOperatorProduct);
+  const country = useAppSelector(selectCountry);
 
   const { control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
@@ -52,8 +55,16 @@ const PurchaseForm = () => {
     dispatch(setOperatorProduct({}));
   }, []);
   const currentAmount = watch("amount");
+
   const handlePurchase = (data: BuyFormProps) => {
-    localStorage.setItem("checkoutInfo", JSON.stringify(data));
+    const formattedPhoneNumber = formatPhoneNumber(
+      country?.countryCode,
+      data?.recipient_phone_number
+    );
+    localStorage.setItem(
+      "checkoutInfo",
+      JSON.stringify({ ...data, recipient_phone_number: formattedPhoneNumber })
+    );
     navigate(`/buy-gift-card/${brand}/checkout`);
   };
 

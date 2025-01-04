@@ -1,10 +1,4 @@
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../app/hooks";
-import {
-  closeCountryBox,
-  openCountry,
-  setOpenCountryBox,
-} from "../../appSlices/generalSlice";
 import { DoneGreenIcon, DropDownBlackIcon, SearchFillIcon } from "../images";
 import { useRef, useState } from "react";
 import { useClickOut } from "../utils/ClickOut";
@@ -13,9 +7,10 @@ import { SupportedCountry } from "../utils/Types";
 import { setActiveCountry } from "../../appSlices/CountrySlice";
 
 const CountrySelector = () => {
-  const openCountryBox = useAppSelector(openCountry);
+  // const openCountryBox = useAppSelector(openCountry);
   const dropDownRef = useRef(null);
   const countryBoxRef = useRef(null);
+  const [openCountryBox, setOpenCountryBox] = useState(false);
   const dispatch = useDispatch();
   const currentCountry = JSON.parse(localStorage.getItem("user_country")!);
   const [filteredCountries, setFilteredCountries] =
@@ -25,7 +20,7 @@ const CountrySelector = () => {
     onState: openCountryBox,
     mainRef: countryBoxRef,
     subRef: dropDownRef,
-    dispatchFunc: () => dispatch(setOpenCountryBox()),
+    dispatchFunc: () => setOpenCountryBox,
   });
 
   const handleSearchCountries = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,16 +32,16 @@ const CountrySelector = () => {
   };
 
   const handleChangeCountry = (country: SupportedCountry) => {
-    if (countryBoxRef?.current) {
+    if (openCountryBox) {
       dispatch(setActiveCountry(country));
-      dispatch(closeCountryBox());
+      setOpenCountryBox(!openCountryBox);
     }
   };
   return (
     <section className="relative">
       <div
         ref={dropDownRef}
-        onClick={() => dispatch(setOpenCountryBox())}
+        onClick={() => setOpenCountryBox(true)}
         className="flex items-center gap-x-[10px] bg-grey-2 p-[3px_10px] rounded-[8px] cursor-pointer text-[14px] text-black-1"
       >
         {currentCountry?.flag} <span>{currentCountry?.name}</span>

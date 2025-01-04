@@ -5,6 +5,7 @@ export type BuyFormProps={
     recipient_name: string;
       sender_name: string;
       recipient_email:string;
+      recipient_phone_number:string;
       amount:string;
       quantity:string;
       message:string;

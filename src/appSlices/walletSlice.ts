@@ -110,6 +110,7 @@ export const connectWallet = createAsyncThunk(
               disconnectWallet();
             } else {
               const newAddress = accounts[0];
+              console.log("new address:",newAddress)
               dispatch(setWalletAddress(newAddress));
               dispatch(setAccount(createAccountObject(newAddress)));
             }

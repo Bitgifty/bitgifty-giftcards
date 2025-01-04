@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Itemize } from "../components/cards/Itemize";
 import { ActionButton } from "../components/Buttons/ActionButton";
 import { BackIcon } from "../components/images";
@@ -11,9 +11,8 @@ import {
   selectCountry,
   selectRate,
 } from "../appSlices/CountrySlice";
-import { getFormattedBalance } from "../components/utils/Formatters";
 import {
-  initializeChain,
+  fetchTokenBalances,
   selectActiveChain,
   selectActiveToken,
 } from "../appSlices/TokenSlice";
@@ -28,18 +27,20 @@ const BuyCheckout = () => {
   const [brandInfo, setBrandInfo] = useState<any>({});
   const [checkoutInfo, setCheckoutInfo] = useState<any>({});
   const [balanceError, setBalanceError] = useState<string>("");
+  const [checkoutLoading, setCheckoutLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const activeToken = useAppSelector(selectActiveToken);
+  const activeToken: any = useAppSelector(selectActiveToken);
   const activeChain = useAppSelector(selectActiveChain);
   const account: any = useAppSelector(selectAccount);
   const product = useAppSelector(selectOperatorProduct);
   const walletAddress = useAppSelector(selectWalletAddress);
   const rate = useAppSelector(selectRate);
   const chain = useAppSelector(selectActiveChain);
-  const [checkout, { isLoading: isCheckingOut }] = useCheckoutMutation();
+  const [checkout] = useCheckoutMutation();
   const dispatch = useAppDispatch();
   const country = useAppSelector(selectCountry);
   const { enqueueSnackbar } = useSnackbar();
+  const { brand } = useParams();
 
   useEffect(() => {
     if (localStorage.getItem("brandInfo")) {
@@ -48,7 +49,6 @@ const BuyCheckout = () => {
     if (localStorage.getItem("checkoutInfo")) {
       setCheckoutInfo(JSON.parse(localStorage.getItem("checkoutInfo")!));
     }
-    dispatch(initializeChain());
   }, []);
 
   useEffect(() => {
@@ -57,13 +57,17 @@ const BuyCheckout = () => {
     }
   }, [country, dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchTokenBalances());
+  }, [dispatch]);
+
   const validateBalance = () => {
     let isValid = true;
-    const userBalance = parseFloat(
-      getFormattedBalance(activeToken || null) || "0"
-    );
 
-    if (parseFloat(checkoutInfo?.amount) > userBalance) {
+    if (
+      (checkoutInfo?.amount * checkoutInfo?.quantity) / rate >
+      activeToken?.formattedBalance
+    ) {
       setBalanceError("Insufficient balance");
       isValid = false;
     } else {
@@ -77,7 +81,8 @@ const BuyCheckout = () => {
   const handleCheckout = async () => {
     const { isValid } = validateBalance();
 
-    if (true) {
+    if (isValid) {
+      setCheckoutLoading(true);
       try {
         console.log("active chain", activeChain);
         const tx = await handleTokenTransfer(
@@ -90,23 +95,21 @@ const BuyCheckout = () => {
 
         if (tx.status === "success") {
           const data = {
-            operator: checkoutInfo?.brand,
+            operator: brand,
             msisdn: checkoutInfo?.recipient_phone_number,
             account_id: account?.id,
             amount: "",
-            amount_operator: `${(checkoutInfo?.amount / rate).toFixed(2)}`,
+            amount_operator: `${checkoutInfo?.amount}`,
             product_id: product?.id,
             user_reference: checkoutInfo?.recipient_email,
-            product_type: product?.product_type,
-            product_category: product?.product_category,
             extra_parameters: {},
             wallet_address: walletAddress,
-            crypto_amount: "",
-            country: checkoutInfo?.country,
+            crypto_amount: `${(checkoutInfo?.amount / rate).toFixed(4)}`,
+            country: country?.country,
             transaction_hash: tx.transactionHash as string,
             chain: chain?.name,
-            transaction_type: "",
-            bill_type: "",
+            transaction_type: "GIFTCARD",
+            bill_type: "GIFTCARD",
           };
 
           try {
@@ -114,9 +117,13 @@ const BuyCheckout = () => {
             console.log(response);
             localStorage.removeItem("brandInfo");
             navigate("/");
+            setCheckoutLoading(false);
           } catch (error) {
             console.log(error);
+            setCheckoutLoading(false);
           }
+        } else {
+          setCheckoutLoading(false);
         }
       } catch (error) {
         console.log(error);
@@ -125,6 +132,7 @@ const BuyCheckout = () => {
       enqueueSnackbar(balanceError ? balanceError : "Something went wrong!", {
         variant: "error",
       });
+      setCheckoutLoading(false);
     }
   };
 
@@ -200,7 +208,7 @@ const BuyCheckout = () => {
           <ActionButton
             label="Pay"
             onClick={handleCheckout}
-            loading={isCheckingOut}
+            loading={checkoutLoading}
           />
         </div>
       </div>
