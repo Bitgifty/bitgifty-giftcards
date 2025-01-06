@@ -18,14 +18,13 @@ const SellGiftCard = () => {
           <Search extraClass="mt-[13px]" />
         </div>
         <section className="mt-[100px] grid grid-cols-2 gap-[16px]">
-          {sellBrands?.map((brand) => (
+          {sellBrands?.map((brand, index) => (
             <BrandCard
+              key={index}
               sell
               text1={brand?.text1}
               text2={brand?.text2}
               image={brand?.image}
-              banner={brand?.banner}
-              checkoutBanner={brand?.checkoutBanner}
               link={brand?.link}
             />
           ))}
