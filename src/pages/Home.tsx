@@ -114,7 +114,7 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div className="mt-[27px] w-full">
+          <div className="mt-[27px] max-w-full overflow-hidden">
             <Slide {...SlickSettings}>
               <Slide1 />
               <Slide2 />
@@ -136,7 +136,8 @@ const Home = () => {
                 icon={<SellIcon />}
                 text1="Sell Gift cards"
                 text2="Lorem Ipsum is a dummy text."
-                link="/sell-gift-card"
+                link=""
+                soon
               />
             </div>
           </section>
@@ -161,6 +162,7 @@ const Home = () => {
                   date={
                     <span>{dayjs(history?.time).format("DD/MM/YY HH:mm")}</span>
                   }
+                  link={`/transaction-receipt/${history?.id}`}
                 />
               ))}
             </div>

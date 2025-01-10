@@ -49,6 +49,7 @@ const History = () => {
               date={
                 <span>{dayjs(history?.time).format("DD/MM/YY HH:mm")}</span>
               }
+              link={`/transaction-receipt/${history?.id}`}
             />
           ))}
         </div>

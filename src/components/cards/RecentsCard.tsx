@@ -1,16 +1,24 @@
+import { useNavigate } from "react-router-dom";
+
 export const RecentCards = ({
   text1,
   text2,
   amount,
   date,
+  link,
 }: {
   text1: string;
   text2: string;
   amount: string;
   date: string | React.ReactNode;
+  link: string;
 }) => {
+  const navigate = useNavigate();
   return (
-    <div className="w-full px-[10px] py-[13px] flex items-center justify-between bg-white-1">
+    <div
+      className=" cursor-pointer w-full px-[10px] py-[13px] flex items-center justify-between bg-white-1"
+      onClick={() => navigate(link)}
+    >
       <div>
         <p className=" text-[13px] text-black-1 font-[600] space-[2%] leading-[13.23px]">
           {text1}

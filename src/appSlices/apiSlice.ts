@@ -26,6 +26,11 @@ export const apiSlice = createApi({
         url: `/transactions/?wallet_addres=${walletAddress}&transaction_type=GIFTCARD`,
       }),
     }),
+    getTransactionHistoryById: builder.query({
+      query: ({id}) => ({
+        url: `/transactions/${id}`,
+      }),
+    }),
     checkout: builder.mutation({
       query: (data) => ({
         url: "/sochitel/exec-transaction/",
@@ -41,6 +46,7 @@ export const apiSlice = createApi({
 export const {
   useGetBrandsByCountryQuery,
   useGetTransactionHistoryQuery,
+  useGetTransactionHistoryByIdQuery,
  useGetOperatorProductsQuery,
  useCheckoutMutation
 

@@ -7,6 +7,7 @@ import SellForm from "./src/pages/SellForm";
 import BuyCheckout from "./src/pages/BuyCheckout";
 import SellCheckout from "./src/pages/SellCheckout";
 import History from "./src/pages/History";
+import HistoryDetail from "./src/pages/HistoryDetail";
 
 const routes = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const routes = createBrowserRouter([
   {
     path: "/history",
     element: <History />,
+  },
+  {
+    path: "/transaction-receipt/:id",
+    element: <HistoryDetail />,
   },
 ]);
 

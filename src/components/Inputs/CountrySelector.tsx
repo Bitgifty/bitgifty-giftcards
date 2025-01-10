@@ -34,11 +34,11 @@ const CountrySelector = () => {
   const handleChangeCountry = (country: SupportedCountry) => {
     if (openCountryBox) {
       dispatch(setActiveCountry(country));
-      setOpenCountryBox(!openCountryBox);
+      setOpenCountryBox(false);
     }
   };
   return (
-    <section className="relative">
+    <section ref={countryBoxRef} className="relative">
       <div
         ref={dropDownRef}
         onClick={() => setOpenCountryBox(true)}
@@ -53,7 +53,6 @@ const CountrySelector = () => {
         }`}
       >
         <div
-          ref={countryBoxRef}
           className={`w-[240px] pl-[11px] h-[36px] rounded-[8px] flex items-center bg-white-1 border-[1px] border-grey-2`}
         >
           <SearchFillIcon />

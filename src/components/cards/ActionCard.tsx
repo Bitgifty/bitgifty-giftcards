@@ -5,16 +5,18 @@ export const ActionCard = ({
   text1,
   text2,
   link,
+  soon,
 }: {
   icon: React.ReactNode;
   text1: string;
   text2: string;
   link: string;
+  soon?: boolean;
 }) => {
   const navigate = useNavigate();
   return (
     <div
-      className=" w-[50%] h-[172px] rounded-[8px] bg-blue-3 flex flex-col justify-center items-center cursor-pointer"
+      className="relative w-[50%] h-[172px] rounded-[8px] bg-blue-3 flex flex-col justify-center items-center cursor-pointer"
       onClick={() => navigate(link)}
     >
       {icon}
@@ -26,6 +28,11 @@ export const ActionCard = ({
           {text2}
         </p>
       </div>
+      {soon && (
+        <div className="flex items-center justify-center absolute right-[10px] top-[10px] px-[5px] bg-brown-1 text-white-1 text-[13px] rounded-[8px]">
+          Soon
+        </div>
+      )}
     </div>
   );
 };
