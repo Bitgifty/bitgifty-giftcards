@@ -24,7 +24,6 @@ export const BaseArrowUpBIcon = () => (
   <img src="/images/baseArrowB.png" alt="" />
 );
 export const TimeIcon = () => <img src="/images/time.png" alt="" />;
-export const SpeakerIcon = () => <img src="/images/speaker.svg" alt="" />;
 export const BuyIcon = () => (
   <img src="/images/buy.png" alt="" className=" cursor-pointer" />
 );
@@ -81,4 +80,25 @@ export const SearchIcon = () => (
 
 export const SearchFillIcon = () => (
   <img src="/images/searchFill.png" alt="" className=" cursor-pointer" />
+);
+export const Slide1 = () => (
+  <img
+    src="/images/slide1.png"
+    alt=""
+    className=" rounded-[8px] cursor-pointer"
+  />
+);
+export const Slide2 = () => (
+  <img
+    src="/images/slide2.png"
+    alt=""
+    className=" rounded-[8px] cursor-pointer"
+  />
+);
+export const Slide3 = () => (
+  <img
+    src="/images/slide3.jpg"
+    alt=""
+    className=" rounded-[8px] cursor-pointer"
+  />
 );

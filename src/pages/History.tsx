@@ -1,12 +1,23 @@
 import { BackIcon } from "../components/images";
 import Layout from "../components/Layout";
-import { history } from "../components/utils/Dummy";
 import { RecentCards } from "../components/cards/RecentsCard";
 import { CategoryBtn } from "../components/Buttons/CategoryBtn";
 import { useState } from "react";
+import { useAppSelector } from "../app/hooks";
+import { selectWalletAddress } from "../appSlices/walletSlice";
+import { useGetTransactionHistoryQuery } from "../appSlices/apiSlice";
+import dayjs from "dayjs";
+import { TransactionSkeleton } from "../components/utils/skeletons/TransactionSkeleton";
 
 const History = () => {
   const [category, setCategory] = useState<string>("All");
+  const walletAddress = useAppSelector(selectWalletAddress);
+  const {
+    currentData: transactionHistory,
+    isFetching: isFetchingTransactions,
+  } = useGetTransactionHistoryQuery({
+    walletAddress,
+  });
   return (
     <Layout>
       <section className="py-[40px] px-[16px] relative">
@@ -24,12 +35,20 @@ const History = () => {
           <CategoryBtn label="Sell" state={category} stateFn={setCategory} />
         </div>
         <div className="flex flex-col gap-y-[5px] mt-[13px]">
-          {history?.map((recent) => (
+          {transactionHistory?.results?.length === 0 && "No transactions yet!"}
+          {isFetchingTransactions &&
+            Array(3)
+              .fill(3)
+              ?.map((_, index) => <TransactionSkeleton key={index} />)}
+          {transactionHistory?.results?.map((history: any) => (
             <RecentCards
-              text1={recent?.text1}
-              text2={recent?.text2}
-              amount={recent?.amount}
-              date={recent?.date}
+              key={history?.id}
+              text1={history?.transaction_type}
+              text2={history?.status}
+              amount={`${history?.currency} ${history?.crypto_amount}`}
+              date={
+                <span>{dayjs(history?.time).format("DD/MM/YY HH:mm")}</span>
+              }
             />
           ))}
         </div>

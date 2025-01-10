@@ -3,17 +3,17 @@ import {
   BuyIcon,
   Logo,
   SellIcon,
-  SpeakerIcon,
+  Slide1,
+  Slide2,
+  Slide3,
 } from "../components/images";
 import Layout from "../components/Layout";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { SlickSettings } from "../components/utils/SlickSettings";
-import { ScrollCard } from "../components/cards/ScrollCard";
 import { ActionCard } from "../components/cards/ActionCard";
 import { RecentCards } from "../components/cards/RecentsCard";
-import { recents } from "../components/utils/Dummy";
 import { Link } from "react-router-dom";
 import CountrySelector from "../components/Inputs/CountrySelector";
 import WalletConnect from "../components/WalletConnect";
@@ -28,12 +28,23 @@ import {
 } from "../appSlices/CountrySlice";
 import { useEffect } from "react";
 import { defaultCountry } from "../components/utils/SupportedCountries";
+import dayjs from "dayjs";
+import { selectWalletAddress } from "../appSlices/walletSlice";
+import { useGetTransactionHistoryQuery } from "../appSlices/apiSlice";
+import { TransactionSkeleton } from "../components/utils/skeletons/TransactionSkeleton";
 
 const Home = () => {
   const activeToken: any = useAppSelector(selectActiveToken);
   const rate = useAppSelector(selectRate);
   const dispatch = useAppDispatch();
   const localCountry = localStorage.getItem("user_country");
+  const walletAddress = useAppSelector(selectWalletAddress);
+  const {
+    currentData: transactionHistory,
+    isFetching: isFetchingTransactions,
+  } = useGetTransactionHistoryQuery({
+    walletAddress,
+  });
 
   useEffect(() => {
     if (localCountry) {
@@ -105,24 +116,9 @@ const Home = () => {
           </div>
           <div className="mt-[27px] w-full">
             <Slide {...SlickSettings}>
-              <ScrollCard
-                icon={<SpeakerIcon />}
-                text1="Lorem Ipsum"
-                text2="Lorem Ipsum is a dummy text and a very dummy text Lorem Ipsum."
-                extraClass="bg-[url('assets/images/lCardBg.png')] bg-cover bg-center bg-no-repeat"
-              />
-              <ScrollCard
-                icon={<SpeakerIcon />}
-                text1="Lorem Ipsum"
-                text2="Lorem Ipsum is a dummy text and a very dummy text Lorem Ipsum."
-                extraClass="bg-[url('assets/images/cCardBg.png')] bg-cover bg-center bg-no-repeat"
-              />
-              <ScrollCard
-                icon={<SpeakerIcon />}
-                text1="Lorem Ipsum"
-                text2="Lorem Ipsum is a dummy text and a very dummy text Lorem Ipsum."
-                extraClass="bg-[url('assets/images/rCardBg.png')] bg-cover bg-center bg-no-repeat"
-              />
+              <Slide1 />
+              <Slide2 />
+              <Slide3 />
             </Slide>
           </div>
           <section className="mt-[40px]">
@@ -150,13 +146,21 @@ const Home = () => {
             </h2>
 
             <div className="flex flex-col gap-y-[5px] mt-[13px]">
-              {recents?.map((recent, index) => (
+              {transactionHistory?.results?.length === 0 &&
+                "No transactions yet!"}
+              {isFetchingTransactions &&
+                Array(3)
+                  .fill(3)
+                  ?.map((_, index) => <TransactionSkeleton key={index} />)}
+              {transactionHistory?.results?.slice(0, 3)?.map((history: any) => (
                 <RecentCards
-                  key={index}
-                  text1={recent?.text1}
-                  text2={recent?.text2}
-                  amount={recent?.amount}
-                  date={recent?.date}
+                  key={history?.id}
+                  text1={history?.transaction_type}
+                  text2={history?.status}
+                  amount={`${history?.currency} ${history?.crypto_amount}`}
+                  date={
+                    <span>{dayjs(history?.time).format("DD/MM/YY HH:mm")}</span>
+                  }
                 />
               ))}
             </div>

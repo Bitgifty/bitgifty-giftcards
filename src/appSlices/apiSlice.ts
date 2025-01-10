@@ -5,7 +5,7 @@ export const apiSlice = createApi({
   reducerPath: "api",
   refetchOnReconnect: true,
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://server-dev.bitgifty.com/dapp/sochitel",
+    baseUrl: "https://server-dev.bitgifty.com/dapp",
     
   }),
   tagTypes: ["User"],
@@ -13,7 +13,7 @@ export const apiSlice = createApi({
 
     getBrandsByCountry: builder.query({
       query: ({country}) => ({
-        url: `/get-operators/?country=${country?.country}&product_type=MOBILE_PIN`,
+        url: `/sochitel/get-operators/?country=${country?.country}&product_type=MOBILE_PIN`,
       }),
     }),
     getOperatorProducts: builder.query({
@@ -21,9 +21,14 @@ export const apiSlice = createApi({
         url: `/get-operator-products/?operator_id=${operatorId}&product_category=EVOUCHERS`,
       }),
     }),
+    getTransactionHistory: builder.query({
+      query: ({walletAddress}) => ({
+        url: `/transactions/?wallet_addres=${walletAddress}&transaction_type=GIFTCARD`,
+      }),
+    }),
     checkout: builder.mutation({
       query: (data) => ({
-        url: "/exec-transaction/",
+        url: "/sochitel/exec-transaction/",
         method: "POST",
         body: data,
       }),
@@ -35,6 +40,7 @@ export const apiSlice = createApi({
 
 export const {
   useGetBrandsByCountryQuery,
+  useGetTransactionHistoryQuery,
  useGetOperatorProductsQuery,
  useCheckoutMutation
 

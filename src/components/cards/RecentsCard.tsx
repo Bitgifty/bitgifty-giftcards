@@ -7,7 +7,7 @@ export const RecentCards = ({
   text1: string;
   text2: string;
   amount: string;
-  date: string;
+  date: string | React.ReactNode;
 }) => {
   return (
     <div className="w-full px-[10px] py-[13px] flex items-center justify-between bg-white-1">
