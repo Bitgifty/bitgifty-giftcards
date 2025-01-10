@@ -20,7 +20,7 @@ const CountrySelector = () => {
     onState: openCountryBox,
     mainRef: countryBoxRef,
     subRef: dropDownRef,
-    dispatchFunc: () => setOpenCountryBox,
+    dispatchFunc: () => setOpenCountryBox(false),
   });
 
   const handleSearchCountries = (e: React.ChangeEvent<HTMLInputElement>) => {
