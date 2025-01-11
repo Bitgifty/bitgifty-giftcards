@@ -35,7 +35,7 @@ const History = () => {
           <CategoryBtn label="Sell" state={category} stateFn={setCategory} />
         </div>
         <div className="flex flex-col gap-y-[5px] mt-[13px]">
-          {transactionHistory?.results?.length === 0 ||
+          {transactionHistory?.count < 1 ||
             (!walletAddress && "No transactions yet!")}
           {isFetchingTransactions &&
             Array(3)
