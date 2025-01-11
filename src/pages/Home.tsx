@@ -147,24 +147,29 @@ const Home = () => {
             </h2>
 
             <div className="flex flex-col gap-y-[5px] mt-[13px]">
-              {transactionHistory?.results?.length === 0 &&
-                "No transactions yet!"}
+              {transactionHistory?.results?.length === 0 ||
+                (!walletAddress && "No transactions yet!")}
               {isFetchingTransactions &&
                 Array(3)
                   .fill(3)
                   ?.map((_, index) => <TransactionSkeleton key={index} />)}
-              {transactionHistory?.results?.slice(0, 3)?.map((history: any) => (
-                <RecentCards
-                  key={history?.id}
-                  text1={history?.transaction_type}
-                  text2={history?.status}
-                  amount={`${history?.currency} ${history?.crypto_amount}`}
-                  date={
-                    <span>{dayjs(history?.time).format("DD/MM/YY HH:mm")}</span>
-                  }
-                  link={`/transaction-receipt/${history?.id}`}
-                />
-              ))}
+              {walletAddress &&
+                transactionHistory?.results
+                  ?.slice(0, 3)
+                  ?.map((history: any) => (
+                    <RecentCards
+                      key={history?.id}
+                      text1={history?.transaction_type}
+                      text2={history?.status}
+                      amount={`${history?.currency} ${history?.crypto_amount}`}
+                      date={
+                        <span>
+                          {dayjs(history?.time).format("DD/MM/YY HH:mm")}
+                        </span>
+                      }
+                      link={`/transaction-receipt/${history?.id}`}
+                    />
+                  ))}
             </div>
           </section>
         </div>
