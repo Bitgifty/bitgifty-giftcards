@@ -23,7 +23,7 @@ export const apiSlice = createApi({
     }),
     getTransactionHistory: builder.query({
       query: ({walletAddress}) => ({
-        url: `/transactions/?wallet_addres=${walletAddress}&transaction_type=GIFTCARD`,
+        url: `/transactions/?wallet_address=${walletAddress}&transaction_type=GIFTCARD`,
       }),
     }),
     getTransactionHistoryById: builder.query({
