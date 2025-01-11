@@ -18,7 +18,7 @@ export const apiSlice = createApi({
     }),
     getOperatorProducts: builder.query({
       query: ({operatorId}) => ({
-        url: `/get-operator-products/?operator_id=${operatorId}&product_category=EVOUCHERS`,
+        url: `/sochitel/get-operator-products/?operator_id=${operatorId}&product_category=EVOUCHERS`,
       }),
     }),
     getTransactionHistory: builder.query({
