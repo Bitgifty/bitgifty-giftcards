@@ -51,6 +51,7 @@ const BuyGiftCard = () => {
               text2={brand?.productTypeName}
               image={`https://bitgifty-bucket.s3.eu-north-1.amazonaws.com/brands/${brand?.id}.jpg`}
               link={`/buy-gift-card/${brand?.id}`}
+              currency={brand?.currency}
             />
           ))}
         </section>

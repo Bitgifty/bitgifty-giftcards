@@ -42,6 +42,7 @@ export const ProductSelector = ({
           onClick={() => dispatch(closeOperatorProductBox())}
         />
       </div>
+      {productsArray?.length < 1 && "Out of stock!"}
       {isProductFetching && (
         <Oval
           height={20}

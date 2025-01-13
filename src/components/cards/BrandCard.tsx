@@ -5,11 +5,13 @@ export const BrandCard = ({
   image,
   text1,
   text2,
+  currency,
   link,
   sell,
 }: {
   image: string;
   brand?: string;
+  currency?: string;
   text1: string;
   text2: string;
   link: string;
@@ -19,7 +21,8 @@ export const BrandCard = ({
   const handleClick = () => {
     const brandInfo = {
       image,
-      brand: text1,
+      brand: removeFirstWord(text1),
+      currency,
     };
     localStorage.setItem("brandInfo", JSON.stringify(brandInfo));
     navigate(link);

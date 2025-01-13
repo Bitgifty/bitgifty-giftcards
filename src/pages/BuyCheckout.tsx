@@ -137,7 +137,7 @@ const BuyCheckout = () => {
     }
   };
 
-  const selectedCountry = useAppSelector(selectCountry);
+  const divisorRate = brandInfo?.currency === "USD" ? 1 : rate;
 
   useScrollToTop();
 
@@ -185,8 +185,9 @@ const BuyCheckout = () => {
             <Itemize
               name="Rate"
               value={
-                `$1 = ${selectedCountry?.currency}${rate?.toFixed(2)}` ||
-                "No rate found!"
+                `$1 = ${brandInfo?.currency}${
+                  brandInfo?.currency === "USD" ? "1" : rate?.toFixed(2)
+                }` || "No rate found!"
               }
             />
 
@@ -195,13 +196,13 @@ const BuyCheckout = () => {
                 Total
               </span>
               <span className="text-[20px] text-black-1 leading-[23.71px] space-x-[6%] font-[500]">
-                {`${selectedCountry?.currency} ${
+                {`${brandInfo?.currency} ${
                   isNaN(checkoutInfo?.amount * checkoutInfo?.quantity)
                     ? "0"
                     : checkoutInfo?.amount * checkoutInfo?.quantity
                 }($${(
                   (checkoutInfo?.amount * checkoutInfo?.quantity) /
-                  rate
+                  divisorRate
                 )?.toFixed(2)})`}
               </span>
             </div>
