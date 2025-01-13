@@ -49,7 +49,7 @@ const BuyGiftCard = () => {
               key={brand?.id}
               text1={brand?.name}
               text2={brand?.productTypeName}
-              image={`https://media.sochitel.com/img/operators/${brand?.id}.png`}
+              image={`https://bitgifty-bucket.s3.eu-north-1.amazonaws.com/brands/${brand?.id}.jpg`}
               link={`/buy-gift-card/${brand?.id}`}
             />
           ))}
