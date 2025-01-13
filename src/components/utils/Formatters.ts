@@ -17,3 +17,13 @@ export const getFormattedBalance=(activeToken:Token|null) => {
 		// Prepend 234 country code
 		return `${prefix}${formattedNumber}`;
 	};
+
+	export const  removeFirstWord=(str:string)=> {
+		// Split the string into words
+		let words = str.split(' ');
+		
+		// Remove the first word and join the rest back into a string
+		words.shift();  // Removes the first word
+		return words.join(' ');  // Joins the remaining words back into a string
+	}
+	

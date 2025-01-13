@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { removeFirstWord } from "../utils/Formatters";
 
 export const BrandCard = ({
   image,
@@ -45,7 +46,7 @@ export const BrandCard = ({
         } w-full px-[13px] pt-[13px] pb-[25px]`}
       >
         <p className="text-[16px] text-black-1 leading-[18.75px] font-[600] space-[2%]">
-          {text1}
+          {removeFirstWord(text1)}
         </p>
         <p className="text-[12px] text-black-3 leading-[14.22px] space-[6%] mt-[1px]">
           {text2}

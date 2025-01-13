@@ -129,13 +129,13 @@ const Home = () => {
               <ActionCard
                 icon={<BuyIcon />}
                 text1="Buy Gift cards"
-                text2="Lorem Ipsum is a dummy text."
+                text2="Perfect gift for any occasion"
                 link="/buy-gift-card"
               />
               <ActionCard
                 icon={<SellIcon />}
                 text1="Sell Gift cards"
-                text2="Lorem Ipsum is a dummy text."
+                text2="Trade your giftcard for money"
                 link=""
                 soon
               />
