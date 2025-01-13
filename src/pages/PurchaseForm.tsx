@@ -20,6 +20,7 @@ import {
 import { getRange } from "../components/utils/GetRange";
 import { formatPhoneNumber } from "../components/utils/Formatters";
 import { selectCountry } from "../appSlices/CountrySlice";
+import { useScrollToTop } from "../components/utils/ScrollToTop";
 
 const PurchaseForm = () => {
   const [brandInfo, setBrandInfo] = useState<any>({});
@@ -71,6 +72,8 @@ const PurchaseForm = () => {
   useEffect(() => {
     setValue("amount", selectedProduct?.price?.operator);
   }, [selectedProduct]);
+
+  useScrollToTop();
 
   return (
     <Layout>

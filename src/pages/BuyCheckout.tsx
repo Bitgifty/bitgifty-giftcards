@@ -22,6 +22,7 @@ import { selectAccount, selectWalletAddress } from "../appSlices/walletSlice";
 import { useCheckoutMutation } from "../appSlices/apiSlice";
 import { useSnackbar } from "notistack";
 import { handleTokenTransfer } from "../components/utils/TokenTransfer";
+import { useScrollToTop } from "../components/utils/ScrollToTop";
 
 const BuyCheckout = () => {
   const [brandInfo, setBrandInfo] = useState<any>({});
@@ -137,6 +138,8 @@ const BuyCheckout = () => {
   };
 
   const selectedCountry = useAppSelector(selectCountry);
+
+  useScrollToTop();
 
   return (
     <Layout>
