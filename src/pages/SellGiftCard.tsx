@@ -12,7 +12,7 @@ const SellGiftCard = () => {
           <div className="flex items-center justify-center relative">
             <BackIcon extraClass="absolute left-0" />
             <h2 className=" text-[18px] text-black-1 font-[500] leading-[21.09px]">
-              Buy Gift Cards
+              Sell Gift Cards
             </h2>
           </div>
           <Search extraClass="mt-[13px]" />
