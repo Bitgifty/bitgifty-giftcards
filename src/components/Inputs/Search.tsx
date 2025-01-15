@@ -16,7 +16,7 @@ export const Search = ({ extraClass, ...props }: SearchProps) => {
       <SearchFillIcon />
       <input
         {...props}
-        className="w-[80%]  border-none  text-[11px] text-black-3 placeholder:text-black-3 leading-[12.89px] outline-none px-[15px]"
+        className="w-[80%]  border-none  text-[16px] text-black-3 placeholder:text-black-3 leading-[12.89px] outline-none px-[15px]"
       />
     </div>
   );

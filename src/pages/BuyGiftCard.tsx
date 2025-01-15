@@ -8,6 +8,7 @@ import { useAppSelector } from "../app/hooks";
 import { selectCountry } from "../appSlices/CountrySlice";
 import { BrandCardSkeleton } from "../components/utils/skeletons/BrandCardSkeleton";
 import { Search } from "../components/Inputs/Search";
+import { useScrollToTop } from "../components/utils/ScrollToTop";
 
 const BuyGiftCard = () => {
   const [category, setCategory] = useState<string>("All");
@@ -27,6 +28,8 @@ const BuyGiftCard = () => {
   useEffect(() => {
     setFilteredOperators(operators);
   }, [operators]);
+
+  useScrollToTop();
 
   return (
     <Layout>
