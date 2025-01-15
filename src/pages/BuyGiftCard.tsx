@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BackIcon } from "../components/images";
 import Layout from "../components/Layout";
 import { CategoryBtn } from "../components/Buttons/CategoryBtn";
@@ -14,7 +14,7 @@ const BuyGiftCard = () => {
   const country = useAppSelector(selectCountry);
   const { currentData: operators, isFetching: isFetchingOperators } =
     useGetBrandsByCountryQuery({ country });
-  const [filteredOperators, setFilteredOperators] = useState(operators || []);
+  const [filteredOperators, setFilteredOperators] = useState(operators);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const brandToSearch = e.target.value?.toLowerCase();
@@ -23,6 +23,10 @@ const BuyGiftCard = () => {
     );
     setFilteredOperators(filtered);
   };
+
+  useEffect(() => {
+    setFilteredOperators(operators);
+  }, [operators]);
 
   return (
     <Layout>
@@ -57,6 +61,9 @@ const BuyGiftCard = () => {
           </div>
         </div>
         <section className="mt-[170px] grid grid-cols-2 gap-[16px]">
+          {!isFetchingOperators &&
+            operators?.length < 1 &&
+            "No operator available!"}
           {isFetchingOperators &&
             Array(8)
               .fill(0)
