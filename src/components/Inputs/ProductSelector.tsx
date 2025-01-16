@@ -61,7 +61,7 @@ export const ProductSelector = ({
         {productsArray?.map((product: any) => (
           <div
             key={product?.id}
-            className="p-[10px] border-b-[1px] border-b-grey-1 text-[14px] leading-[16.59px] space-x-[6%] text-black-3 flex flex-col gap-y-[6px] cursor-pointer"
+            className="p-[10px] border-b-[1px] border-b-grey-1 text-[16px_important!] leading-[16.59px] space-x-[6%] text-black-3 flex flex-col gap-y-[6px] cursor-pointer"
             onClick={() => handleSelect(product)}
           >
             {product?.name}

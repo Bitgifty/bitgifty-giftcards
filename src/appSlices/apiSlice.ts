@@ -12,8 +12,8 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
 
     getBrandsByCountry: builder.query({
-      query: ({country}) => ({
-        url: `/sochitel/get-operators/?country=${country?.country}&product_type=MOBILE_PIN`,
+      query: (country) => ({
+        url: `/sochitel/get-operators/?country=${country}&product_type=MOBILE_PIN`,
       }),
     }),
     getOperatorProducts: builder.query({

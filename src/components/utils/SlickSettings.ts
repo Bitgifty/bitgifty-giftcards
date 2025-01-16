@@ -1,5 +1,5 @@
 export const SlickSettings={
-    centerMode: true,
+    centerMode: false,
     centerPadding: "60px",
     slidesToShow: 1,
     infinite: true,

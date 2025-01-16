@@ -4,30 +4,55 @@ import Layout from "../components/Layout";
 import { CategoryBtn } from "../components/Buttons/CategoryBtn";
 import { BrandCard } from "../components/cards/BrandCard";
 import { useGetBrandsByCountryQuery } from "../appSlices/apiSlice";
-import { useAppSelector } from "../app/hooks";
-import { selectCountry } from "../appSlices/CountrySlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { selectCountry, setActiveCountry } from "../appSlices/CountrySlice";
 import { BrandCardSkeleton } from "../components/utils/skeletons/BrandCardSkeleton";
 import { Search } from "../components/Inputs/Search";
 import { useScrollToTop } from "../components/utils/ScrollToTop";
+import { defaultCountry } from "../components/utils/SupportedCountries";
 
 const BuyGiftCard = () => {
-  const [category, setCategory] = useState<string>("All");
+  const [category, setCategory] = useState<string>("General");
   const country = useAppSelector(selectCountry);
+  const localCountry = localStorage.getItem("user_country");
+  const dispatch = useAppDispatch();
   const { currentData: operators, isFetching: isFetchingOperators } =
-    useGetBrandsByCountryQuery({ country });
+    useGetBrandsByCountryQuery(country?.country);
   const [filteredOperators, setFilteredOperators] = useState(operators);
+  const { currentData: popular, isFetching: isFetchingPopular } =
+    useGetBrandsByCountryQuery("US");
+
+  const groupToBeFiltered = () => {
+    if (category === "General") {
+      return operators;
+    } else {
+      return popular;
+    }
+  };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const brandToSearch = e.target.value?.toLowerCase();
-    const filtered = operators?.filter((operator: any) =>
+    const filtered = groupToBeFiltered()?.filter((operator: any) =>
       operator?.name?.toLowerCase()?.includes(brandToSearch)
     );
     setFilteredOperators(filtered);
   };
 
   useEffect(() => {
-    setFilteredOperators(operators);
-  }, [operators]);
+    if (category === "General") {
+      setFilteredOperators(operators);
+    } else {
+      setFilteredOperators(popular);
+    }
+  }, [operators, popular, category]);
+
+  useEffect(() => {
+    if (localCountry) {
+      dispatch(setActiveCountry(JSON.parse(localCountry)));
+    } else {
+      dispatch(setActiveCountry(defaultCountry));
+    }
+  }, [localCountry]);
 
   useScrollToTop();
 
@@ -48,16 +73,14 @@ const BuyGiftCard = () => {
               onChange={(e) => handleSearch(e)}
             />
           </div>
-          <div className="flex items-center justify-between gap-x-[10px] mt-[27px]">
-            <CategoryBtn label="All" state={category} stateFn={setCategory} />
+          <div className="flex items-center gap-x-[10px] mt-[27px]">
             <CategoryBtn
-              label="Fashion"
+              label="General"
               state={category}
               stateFn={setCategory}
             />
-            <CategoryBtn label="Music" state={category} stateFn={setCategory} />
             <CategoryBtn
-              label="Movies"
+              label="Popular"
               state={category}
               stateFn={setCategory}
             />
@@ -65,9 +88,10 @@ const BuyGiftCard = () => {
         </div>
         <section className="mt-[170px] grid grid-cols-2 gap-[16px]">
           {!isFetchingOperators &&
+            !isFetchingPopular &&
             operators?.length < 1 &&
             "No operator available!"}
-          {isFetchingOperators &&
+          {(isFetchingOperators || isFetchingPopular) &&
             Array(8)
               .fill(0)
               .map((_, index) => <BrandCardSkeleton key={index} />)}

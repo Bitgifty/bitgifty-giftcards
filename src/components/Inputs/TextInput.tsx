@@ -38,7 +38,7 @@ export const TextInput = ({
               {fixedValues?.map((value) => (
                 <button
                   type="button"
-                  className={`py-[9px] px-[17px] text-[10px] leading-[11.72px] space-x-[2%] rounded-[13px] ${
+                  className={`py-[9px] px-[17px] text-[12px] leading-[11.72px] space-x-[2%] rounded-[13px] ${
                     value === fixedState
                       ? "bg-brown-1 text-white-1"
                       : "bg-orange-1 text-black-4"
@@ -55,7 +55,7 @@ export const TextInput = ({
             value={value}
             onChange={onChange}
             {...props}
-            className="w-full h-[44px] rounded-[8px] bg-white-1 border-[1px] border-grey-2 text-[11px] text-black-3 placeholder:text-black-3 leading-[12.89px] outline-none px-[15px]"
+            className="w-full h-[44px] rounded-[8px] bg-white-1 border-[1px] border-grey-2 text-[16px_important!] placeholder:text-[16px_important!] text-black-3 placeholder:text-black-3 leading-[12.89px] outline-none px-[15px]"
           />
 
           {error && (
