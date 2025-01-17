@@ -10,17 +10,16 @@ import { BrandCardSkeleton } from "../components/utils/skeletons/BrandCardSkelet
 import { Search } from "../components/Inputs/Search";
 import { useScrollToTop } from "../components/utils/ScrollToTop";
 import { defaultCountry } from "../components/utils/SupportedCountries";
+import { popular } from "../components/utils/Dummy";
 
 const BuyGiftCard = () => {
-  const [category, setCategory] = useState<string>("General");
+  const [category, setCategory] = useState<string>("Popular");
   const country = useAppSelector(selectCountry);
   const localCountry = localStorage.getItem("user_country");
   const dispatch = useAppDispatch();
   const { currentData: operators, isFetching: isFetchingOperators } =
     useGetBrandsByCountryQuery(country?.country);
   const [filteredOperators, setFilteredOperators] = useState(operators);
-  const { currentData: popular, isFetching: isFetchingPopular } =
-    useGetBrandsByCountryQuery("US");
 
   const groupToBeFiltered = () => {
     if (category === "General") {
@@ -75,12 +74,12 @@ const BuyGiftCard = () => {
           </div>
           <div className="flex items-center gap-x-[10px] mt-[27px]">
             <CategoryBtn
-              label="General"
+              label="Popular"
               state={category}
               stateFn={setCategory}
             />
             <CategoryBtn
-              label="Popular"
+              label="General"
               state={category}
               stateFn={setCategory}
             />
@@ -88,10 +87,9 @@ const BuyGiftCard = () => {
         </div>
         <section className="mt-[170px] grid grid-cols-2 gap-[16px]">
           {!isFetchingOperators &&
-            !isFetchingPopular &&
             operators?.length < 1 &&
             "No operator available!"}
-          {(isFetchingOperators || isFetchingPopular) &&
+          {isFetchingOperators &&
             Array(8)
               .fill(0)
               .map((_, index) => <BrandCardSkeleton key={index} />)}

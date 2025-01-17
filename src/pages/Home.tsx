@@ -32,6 +32,8 @@ import dayjs from "dayjs";
 import { selectWalletAddress } from "../appSlices/walletSlice";
 import { useGetTransactionHistoryQuery } from "../appSlices/apiSlice";
 import { TransactionSkeleton } from "../components/utils/skeletons/TransactionSkeleton";
+import { BrandCard } from "../components/cards/BrandCard";
+import { popular } from "../components/utils/Dummy";
 
 const Home = () => {
   const activeToken: any = useAppSelector(selectActiveToken);
@@ -114,17 +116,14 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div className="mt-[27px] max-w-full overflow-hidden">
+          <div className="mt-[18px] max-w-full overflow-hidden">
             <Slide {...SlickSettings}>
               <Slide1 />
               <Slide2 />
               <Slide3 />
             </Slide>
           </div>
-          <section className="mt-[40px]">
-            <h2 className="text-[16px] text-black-1 leading-[18.75px] space-[2%] font-[600]">
-              Actions
-            </h2>
+          <section className="mt-[18px]">
             <div className="mt-[14px] w-full flex gap-x-[16px]">
               <ActionCard
                 icon={<BuyIcon />}
@@ -141,7 +140,27 @@ const Home = () => {
               />
             </div>
           </section>
-          <section className="mt-[36px]">
+
+          <section className="mt-[18px]">
+            <h2 className="text-[16px] text-black-1 leading-[18.75px] space-[2%] font-[600]">
+              Popular
+            </h2>
+
+            <section className="mt-[13px] grid grid-cols-2 gap-[16px]">
+              {popular?.slice(0, 4)?.map((brand: any) => (
+                <BrandCard
+                  key={brand?.id}
+                  text1={brand?.name}
+                  text2={brand?.productTypeName}
+                  image={`https://bitgifty-bucket.s3.eu-north-1.amazonaws.com/brands/${brand?.id}.jpg`}
+                  link={`/buy-gift-card/${brand?.id}`}
+                  currency={brand?.currency}
+                />
+              ))}
+            </section>
+          </section>
+
+          <section className="mt-[18px]">
             <h2 className="text-[16px] text-black-1 leading-[18.75px] space-[2%] font-[600]">
               Recents
             </h2>
