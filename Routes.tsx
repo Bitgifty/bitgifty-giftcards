@@ -8,6 +8,7 @@ import BuyCheckout from "./src/pages/BuyCheckout";
 import SellCheckout from "./src/pages/SellCheckout";
 import History from "./src/pages/History";
 import HistoryDetail from "./src/pages/HistoryDetail";
+import RedeemShakeWin from "./src/pages/RedeemShakeWin";
 
 const routes = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const routes = createBrowserRouter([
   {
     path: "/sell-gift-card/:brand/checkout",
     element: <SellCheckout />,
+  },
+  {
+    path: "/redeem-shake-and-win",
+    element: <RedeemShakeWin />,
   },
   {
     path: "/history",

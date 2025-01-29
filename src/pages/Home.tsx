@@ -2,6 +2,7 @@ import {
   ArrowLeftWhiteIcon,
   BuyIcon,
   Logo,
+  RedeemIcon,
   SellIcon,
   Slide1,
   Slide2,
@@ -124,17 +125,20 @@ const Home = () => {
             </Slide>
           </div>
           <section className="mt-[18px]">
-            <div className="mt-[14px] w-full flex gap-x-[16px]">
+            <div className="mt-[14px] w-full flex gap-x-[16px] justify-between p-[10px_10px_0px] rounded-[8px] drop-shadow-md">
               <ActionCard
                 icon={<BuyIcon />}
-                text1="Buy Gift cards"
-                text2="Perfect gift for any occasion"
+                text="Buy Gift cards"
                 link="/buy-gift-card"
               />
               <ActionCard
+                icon={<RedeemIcon />}
+                text="Redeem Shake & Win"
+                link="/redeem-shake-and-win"
+              />
+              <ActionCard
                 icon={<SellIcon />}
-                text1="Sell Gift cards"
-                text2="Trade your giftcard for money"
+                text="Sell Gift cards"
                 link=""
                 soon
               />
@@ -142,12 +146,12 @@ const Home = () => {
           </section>
 
           <section className="mt-[18px]">
-            <h2 className="text-[16px] text-black-1 leading-[18.75px] space-[2%] font-[600]">
+            <h2 className="text-[18px] text-black-1 leading-[18.75px] space-[2%] font-[600]">
               Popular
             </h2>
 
             <section className="mt-[13px] grid grid-cols-2 gap-[16px]">
-              {popular?.slice(0, 4)?.map((brand: any) => (
+              {popular?.slice(0, 6)?.map((brand: any) => (
                 <BrandCard
                   key={brand?.id}
                   text1={brand?.name}
@@ -158,10 +162,16 @@ const Home = () => {
                 />
               ))}
             </section>
+            <Link
+              to={"/buy-gift-card"}
+              className=" float-right mt-[5px] text-[12px] font-[500]"
+            >
+              View more...
+            </Link>
           </section>
 
           <section className="mt-[18px]">
-            <h2 className="text-[16px] text-black-1 leading-[18.75px] space-[2%] font-[600]">
+            <h2 className="text-[18px] text-black-1 leading-[18.75px] space-[2%] font-[600]">
               Recents
             </h2>
 

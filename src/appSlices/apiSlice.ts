@@ -39,6 +39,15 @@ export const apiSlice = createApi({
       }),
      
     }),
+
+    redeem: builder.mutation({
+      query: (redeem_dap) => ({
+        url: "/redeem-giftcard/",
+        method: "POST",
+        body: redeem_dap,
+      }),
+     
+    }),
     
   }),
 });
@@ -48,6 +57,7 @@ export const {
   useGetTransactionHistoryQuery,
   useGetTransactionHistoryByIdQuery,
  useGetOperatorProductsQuery,
- useCheckoutMutation
+ useCheckoutMutation,
+ useRedeemMutation
 
 } = apiSlice;

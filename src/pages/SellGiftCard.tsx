@@ -10,7 +10,7 @@ const SellGiftCard = () => {
       <section className="py-[40px] px-[16px] relative">
         <div className="absolute left-0 right-0 px-[16px] bg-grey-1">
           <div className="flex items-center justify-center relative">
-            <BackIcon extraClass="absolute left-0" />
+            <BackIcon extraClass="absolute left-0" link="/" />
             <h2 className=" text-[18px] text-black-1 font-[500] leading-[21.09px]">
               Sell Gift Cards
             </h2>

@@ -25,6 +25,17 @@ export const buySchema = (amountType: string, amountMin: number, amountMax: numb
   });
 };
 
+
+export const RedeemSchema = () => {
+  return z.object({
+      code: z.string().min(1, "Enter giftcard code"),
+      email: z
+          .string()
+          .min(1, { message: "Email cannot be empty" })
+          .email("This is not a valid email."),
+  });
+};
+
 const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
 export const sellSchema = z.object({

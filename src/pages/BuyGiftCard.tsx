@@ -61,7 +61,7 @@ const BuyGiftCard = () => {
         <div className=" fixed md:max-w-[500px] lg:max-w-[600px] top-0 z-10 m-[0_auto] pt-[40px] pb-[20px] left-0 right-0 px-[16px] bg-grey-1">
           <div className=" bg-grey-1">
             <div className="flex items-center justify-center relative">
-              <BackIcon extraClass="absolute left-0" />
+              <BackIcon extraClass="absolute left-0" link="/" />
               <h2 className=" text-[18px] text-black-1 font-[500] leading-[21.09px]">
                 Buy Gift Cards
               </h2>

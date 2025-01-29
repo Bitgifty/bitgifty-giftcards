@@ -25,10 +25,25 @@ export const BaseArrowUpBIcon = () => (
 );
 export const TimeIcon = () => <img src="/images/time.png" alt="" />;
 export const BuyIcon = () => (
-  <img src="/images/buy.png" alt="" className=" cursor-pointer" />
+  <img
+    src="/images/buy.png"
+    alt=""
+    className=" cursor-pointer h-[36px] w-[36px]"
+  />
 );
 export const SellIcon = () => (
-  <img src="/images/sell.png" alt="" className=" cursor-pointer" />
+  <img
+    src="/images/sell.png"
+    alt=""
+    className=" cursor-pointer h-[36px] w-[36px]"
+  />
+);
+export const RedeemIcon = () => (
+  <img
+    src="/images/redeem.png"
+    alt=""
+    className=" cursor-pointer h-[36px] w-[36px]"
+  />
 );
 export const CancelIcon = ({
   extraClass,
@@ -62,14 +77,20 @@ export const DropDownBlackIcon = () => (
   />
 );
 
-export const BackIcon = ({ extraClass }: { extraClass?: string }) => {
+export const BackIcon = ({
+  link,
+  extraClass,
+}: {
+  link?: string;
+  extraClass?: string;
+}) => {
   const navigate = useNavigate();
   return (
     <img
       src="/images/back.png"
       alt=""
       className={`${extraClass} cursor-pointer`}
-      onClick={() => navigate(-1)}
+      onClick={() => (link ? navigate(link) : navigate(-1))}
     />
   );
 };
