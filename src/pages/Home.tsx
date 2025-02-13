@@ -124,7 +124,7 @@ const Home = () => {
               <Slide3 />
             </Slide>
           </div>
-          <section className="mt-[18px]">
+          {/* <section className="mt-[18px]">
             <div className="mt-[14px] w-full flex gap-x-[16px] justify-between p-[10px_10px_0px] rounded-[8px] drop-shadow-md">
               <ActionCard
                 icon={<BuyIcon />}
@@ -143,11 +143,14 @@ const Home = () => {
                 soon
               />
             </div>
-          </section>
+          </section> */}
 
           <section className="mt-[18px]">
-            <h2 className="text-[18px] text-black-1 leading-[18.75px] space-[2%] font-[600]">
-              Popular
+            <h2 className="text-[18px] text-black-1 leading-[18.75px] space-[2%] font-[600] flex items-center justify-between">
+              Popular{" "}
+              <Link to={"/buy-gift-card"} className=" text-[12px] font-[500]">
+                See all
+              </Link>
             </h2>
 
             <section className="mt-[13px] grid grid-cols-2 gap-[16px]">
@@ -162,12 +165,6 @@ const Home = () => {
                 />
               ))}
             </section>
-            <Link
-              to={"/buy-gift-card"}
-              className=" float-right mt-[5px] text-[12px] font-[500]"
-            >
-              View more...
-            </Link>
           </section>
 
           <section className="mt-[18px]">
