@@ -11,7 +11,7 @@ Giftcards Frontend is a web-based interface for Minipay, a decentralized platfor
 - Cross-Border Payments: Facilitates low-cost international transactions using stablecoins like cUSD.
   Gasless Transactions: Allows users to transact without the need for gas tokens.
 
-  ## 🚀 Technologies Used
+## 🚀 Technologies Used
 
 - React Typescript + Tailwind CSS + Redux Toolkit
 
